@@ -1,7 +1,7 @@
 from pprint import pprint
 
 import requests
-
+import yadisk
 
 def smartest_hero(list_name_hero: list):
     api_ = requests.get('https://akabab.github.io/superhero-api/api/all.json')
@@ -11,3 +11,8 @@ def smartest_hero(list_name_hero: list):
 
 
 smartest_hero(['Hulk', 'Captain America', 'Thanos'])
+
+
+y = yadisk.YaDisk(token='y0_AgAAAAAyrFsgAADLWwAAAADeh_uL9UEyoGJsSaG69cZeW1uXiv3MGhs')
+y.upload('file_to_ya_disk/file_1.txt', 'test/file_1.txt')
+
