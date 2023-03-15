@@ -35,13 +35,23 @@ class YaUploader:
         response = requests.put(href, data=open(local_file_path, 'rb'))
         if response.status_code == 201:
             print("Success")
+            print()
+
+
+class Stackoverflow:
+    def get_questions(self):
+        url = "https://api.stackexchange.com/2.3/questions?fromdate=2023-03-14&todate=2023-03-16&order=desc&sort=activity&tagged=Python&site=stackoverflow"
+        response = requests.get(url)
+        return response.json()
 
 
 if __name__ == '__main__':
     local_path_to_file = input('Введите локальный адрес файла ')
-    disk_path_to_file = input('Введите адрес куда загрузит файл ')
+    disk_path_to_file = input('Введите адрес куда загрузить файл на яндекс диске ')
     TOKEN = input('Введите токен: ')
     uploader = YaUploader(token=TOKEN)
     uploader.upload(disk_path_to_file, local_path_to_file)
 
-
+    stackoverflow = Stackoverflow()
+    for _ in stackoverflow.get_questions()['items']:
+        print(_['title'])
