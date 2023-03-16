@@ -38,11 +38,11 @@ class YaUploader:
             print()
 
 
-class Stackoverflow:
-    def get_questions(self):
-        url = "https://api.stackexchange.com/2.3/questions?fromdate=2023-03-14&todate=2023-03-16&order=desc&sort=activity&tagged=Python&site=stackoverflow"
-        response = requests.get(url)
-        return response.json()
+
+def get_questions(page):
+    url = f"https://api.stackexchange.com/2.3/questions?page={page}&pagesize=100&fromdate=1678752000&todate=1678924800&order=desc&sort=activity&tagged=Python&site=stackoverflow"
+    response = requests.get(url)
+    return response.json()
 
 
 if __name__ == '__main__':
@@ -52,6 +52,10 @@ if __name__ == '__main__':
     uploader = YaUploader(token=TOKEN)
     uploader.upload(disk_path_to_file, local_path_to_file)
 
-    stackoverflow = Stackoverflow()
-    for _ in stackoverflow.get_questions()['items']:
-        print(_['title'])
+    page = 1
+    has_more = True
+    while has_more:
+        for _ in get_questions(page)['items']:
+            print(_['title'])
+        page += 1
+        has_more = get_questions(page)['has_more']
